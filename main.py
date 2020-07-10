@@ -240,5 +240,5 @@ with open('data.csv', 'w') as csvfile:
             browser.quit()
 
 # Print scraped data from CSV
-with open('data.csv') as f:
-    print(f.read())
+#with open('data.csv') as f:
+#    print(f.read())
