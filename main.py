@@ -51,8 +51,15 @@ chrome_options.add_argument("--disable-dev-shm-usage")
 #
 new_row = []
 
-with open("data.csv", "w") as csvfile:
-    writer = csv.writer(csvfile)
+#with open("data.csv", "w") as csvfile:
+#with open('photo_data/photographers-ids-test.csv','r') as csvf: # Open file in read mode
+with open("photo_data/photographers-ids-test.csv", 'r') as in_file, open("output.csv", 'w') as out_file:
+    reader = csv.reader(in_file)
+    writer = csv.writer(out_file)
+
+    #rows = csv.reader(csvf) 
+    #writer = csv.writer(csvfile)
+
     writer.writerow(
         [
             "id",
@@ -67,11 +74,12 @@ with open("data.csv", "w") as csvfile:
         ]
     )
 
-    for foto_id in range(
-        20473, 20474
-    ):  # IDs range – use "20473-20474" for testing purposes
-
-        print(foto_id, end="")
+    #for foto_id in range(
+    #    20473, 20474
+    #):  # IDs range – use "20473-20474" for testing purposes
+    for row in reader:
+        foto_id = row[0]
+        print(foto_id, end=" ")
 
         foto_url = foto_url_pattern.replace("[foto_id]", str(foto_id))
 
@@ -116,12 +124,15 @@ with open("data.csv", "w") as csvfile:
                 #######
                 # GND #
                 #######
+                print("GND...", end=" ")
                 if len(modal.select("a[href*=gnd]")) > 0:
                     photo_gnd = modal.select("a[href*=gnd]")[0].text.strip()
+                    print("Ok")
 
                 #########
                 # Fonds #
                 #########
+                print("Fonds...", end=" ")
                 try:
                     button_toggle_panel = browser.find_element_by_link_text("Fonds")
                 except:
@@ -163,12 +174,14 @@ with open("data.csv", "w") as csvfile:
                                 "//a[@class='go-back ng-binding']"
                             ).click()
                             time.sleep(0.800)
+                    print("Ok")
                 except:
                     pass
 
                 ####################
                 # Solo exhibitions #
                 ####################
+                print("Solo...", end=" ")
                 try:
                     button_toggle_panel = browser.find_element_by_link_text(
                         "Single exhibition"
@@ -211,12 +224,15 @@ with open("data.csv", "w") as csvfile:
                                 "//a[@class='go-back ng-binding']"
                             ).click()
                             time.sleep(0.800)
+                    print("Ok")
                 except:
+                    print("—")
                     pass
 
                 #####################
                 # Group exhibitions #
                 #####################
+                print("Group...", end=" ")
                 try:
                     button_toggle_panel = browser.find_element_by_link_text(
                         "Group exhibition"
@@ -252,17 +268,17 @@ with open("data.csv", "w") as csvfile:
                             rows = exh_page.select("div.modal-content")
                             for row in rows:
                                 exh_name = row.select("h1.ng-binding")[0].text.strip()
-                                print(exh_name, end=", ")
+
 
                             # Clicca "Back"
                             browser.find_element_by_xpath(
                                 "//a[@class='go-back ng-binding']"
                             ).click()
                             time.sleep(0.800)
+                    print("Ok")
                 except:
+                    print("—")
                     pass
-
-                print("---")
 
                 new_row = [
                     foto_id,
@@ -280,8 +296,3 @@ with open("data.csv", "w") as csvfile:
 
         finally:
             browser.quit()
-
-# Print scraped data from CSV
-# with open("data.csv") as f:
-#    print(f.read())
-# TEST
