@@ -71,6 +71,8 @@ with open("data.csv", "w") as csvfile:
         20473, 20474
     ):  # IDs range – use "20473-20474" for testing purposes
 
+        print(foto_id, end="")
+
         foto_url = foto_url_pattern.replace("[foto_id]", str(foto_id))
 
         photo_name = ""
@@ -99,6 +101,9 @@ with open("data.csv", "w") as csvfile:
                 photo_name = modal.select("h1.ng-binding")[0].text.strip()
                 photo_bio = modal.select("h4.ng-binding")[0].text.strip()
 
+                
+                print(photo_name)
+                
                 ###########
                 # Context #
                 ###########
@@ -247,7 +252,7 @@ with open("data.csv", "w") as csvfile:
                             rows = exh_page.select("div.modal-content")
                             for row in rows:
                                 exh_name = row.select("h1.ng-binding")[0].text.strip()
-                                # print(exh_name)
+                                print(exh_name, end=", ")
 
                             # Clicca "Back"
                             browser.find_element_by_xpath(
@@ -257,8 +262,6 @@ with open("data.csv", "w") as csvfile:
                 except:
                     pass
 
-                print(foto_id)
-                print(photo_name)
                 print("---")
 
                 new_row = [
